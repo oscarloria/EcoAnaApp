@@ -8,10 +8,53 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types; // Para manejar posibles nulos
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.Statement;
+import java.sql.ResultSet;
+
 
 
 
 public class DatabaseManager {
+    
+    
+    // Dentro de la clase DatabaseManager
+
+public List<Object[]> getTodasLasSolicitudes() { //<- Asegúrate que esta línea esté bien
+    List<Object[]> solicitudes = new ArrayList<>();
+    String sql = "SELECT ID, NombreCliente, PrimerApellido, SegundoApellido, CedulaID, " +
+                 "FechaIngreso, FechaSalida, CantidadPersonas, EstadoSolicitud " +
+                 "FROM SolicitudesReserva ORDER BY ID DESC";
+
+    try (Connection conn = DriverManager.getConnection(DB_URL);
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+            Object[] fila = new Object[9]; // Asegúrate que el tamaño coincida con tu SELECT y llenado
+            fila[0] = rs.getInt("ID");
+            fila[1] = rs.getString("NombreCliente");
+            String apellidos = rs.getString("PrimerApellido") + " " + rs.getString("SegundoApellido");
+            fila[2] = apellidos.trim();
+            fila[3] = rs.getString("CedulaID");
+            fila[4] = rs.getDate("FechaIngreso");
+            fila[5] = rs.getDate("FechaSalida");
+            fila[6] = rs.getInt("CantidadPersonas");
+            fila[7] = rs.getString("EstadoSolicitud");
+             // Ajusta los índices aquí si no combinaste apellidos (fila[8] no se usa si combinaste)
+
+            solicitudes.add(fila);
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al leer las solicitudes: " + e.getMessage());
+        e.printStackTrace();
+    }
+    return solicitudes;
+} //<- Fin del método
+
+
     
     private static final String DB_URL = "jdbc:ucanaccess://C:/ECOANA/EcoAnaApp/EcoAnaDB.accdb";
     
@@ -73,4 +116,8 @@ public class DatabaseManager {
             return false; // Falso si hubo un error
         }
     }
+    
+    
+    
+    
 }

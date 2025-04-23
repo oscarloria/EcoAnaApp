@@ -1,22 +1,77 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package ecoana.ui;
 
-/**
- *
- * @author omlgc
- */
+import ecoana.db.DatabaseManager;
+import javax.swing.table.DefaultTableModel; // Para manejar la tabla
+import java.util.List; // Para la lista de datos
+
+
+
+
 public class GestionReservasJFrame extends javax.swing.JFrame {
 
+    private DatabaseManager dbManager;
     /**
      * Creates new form GestionReservasJFrame
      */
     public GestionReservasJFrame() {
         initComponents();
-    }
+        
+        dbManager = new DatabaseManager(); // Inicializar el manejador de BD
+        cargarDatosTabla(); // ¡Llamar al método para llenar la tabla!
 
+        // Opcional: Configuración extra de la ventana (recomendado)
+        this.setTitle("Gestión de Reservas - Cabaña Eco-Ana");
+        this.setLocationRelativeTo(null); // Centrar ventana
+    }
+    
+    
+    
+    
+
+    private void cargarDatosTabla() {
+        // 1. Definir los nombres de las columnas para la tabla
+        String[] columnas = {"ID", "Nombre", "Apellidos", "Cédula", "Ingreso", "Salida", "Personas", "Estado"};
+
+        // 2. Crear un modelo de tabla por defecto, sin filas iniciales
+        DefaultTableModel tableModel = new DefaultTableModel(columnas, 0) {
+             @Override
+             public boolean isCellEditable(int row, int column) {
+                // Hacer que las celdas no sean editables
+                return false;
+             }
+        };
+
+        // 3. Obtener los datos de la base de datos
+        // Asegúrate que dbManager no sea null aquí (debería haberse inicializado en el constructor)
+        if (dbManager == null) {
+             System.err.println("dbManager no inicializado en cargarDatosTabla!");
+             return; // Salir si dbManager es null
+        }
+        List<Object[]> solicitudes = dbManager.getTodasLasSolicitudes();
+
+        // 4. Añadir cada fila de datos al modelo de la tabla
+        for (Object[] fila : solicitudes) {
+            tableModel.addRow(fila);
+        }
+
+        // 5. Establecer el modelo cargado en nuestra JTable (tblReservas)
+        tblReservas.setModel(tableModel);
+
+        // 6. (Opcional) Ajustar anchos de columna
+        tblReservas.getColumnModel().getColumn(0).setPreferredWidth(40); // ID
+        tblReservas.getColumnModel().getColumn(1).setPreferredWidth(100); // Nombre
+        tblReservas.getColumnModel().getColumn(2).setPreferredWidth(120); // Apellidos
+        tblReservas.getColumnModel().getColumn(3).setPreferredWidth(80);  // Cédula
+        tblReservas.getColumnModel().getColumn(7).setPreferredWidth(80);  // Estado
+    }
+    
+    
+    
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,17 +81,62 @@ public class GestionReservasJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblReservas = new javax.swing.JTable();
+        btnAceptar = new javax.swing.JButton();
+        btnRechazar = new javax.swing.JButton();
+        btnImprimir = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        tblReservas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblReservas);
+
+        btnAceptar.setText("Aceptar Solicitud");
+
+        btnRechazar.setText("Rechazar Solicitud");
+
+        btnImprimir.setText("Imprimir Factura");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRechazar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(74, 74, 74))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
+                        .addComponent(btnRechazar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(265, Short.MAX_VALUE))
         );
 
         pack();
@@ -46,37 +146,42 @@ public class GestionReservasJFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+       /* Set the Nimbus look and feel */
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GestionReservasJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GestionReservasJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GestionReservasJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GestionReservasJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GestionReservasJFrame().setVisible(true);
-            }
-        });
+    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(GestionReservasJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
+
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            // Cambia esta línea para crear la nueva ventana
+            new GestionReservasJFrame().setVisible(true);
+        }
+    });
+    }
+    
+    
+    
+    
+    
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnImprimir;
+    private javax.swing.JButton btnRechazar;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblReservas;
     // End of variables declaration//GEN-END:variables
 }
