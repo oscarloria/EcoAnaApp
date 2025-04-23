@@ -180,14 +180,14 @@ private DatabaseManager dbManager;
                                     .addComponent(jLabel4)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(56, 56, 56)
-                                .addComponent(btnEnviarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(70, 70, 70)
+                                .addComponent(btnEnviarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap(232, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
@@ -343,6 +343,11 @@ private DatabaseManager dbManager;
             }
     }//GEN-LAST:event_btnEnviarSolicitudActionPerformed
 
+    
+    
+    
+    
+    
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
@@ -361,21 +366,21 @@ private DatabaseManager dbManager;
         
         
         
-        SpinnerDateModel modelNac = new SpinnerDateModel(/*...*/);
+        SpinnerDateModel modelNac = new SpinnerDateModel();
         spnFechaNacimiento.setModel(modelNac);
         JSpinner.DateEditor editorNac = new JSpinner.DateEditor(spnFechaNacimiento, "yyyy-MM-dd");
         spnFechaNacimiento.setEditor(editorNac);
 
         // --- Configuración Spinner Fecha Ingreso ---
         // ... (el código de configuración) ...
-        SpinnerDateModel modelIng = new SpinnerDateModel(/*...*/);
+        SpinnerDateModel modelIng = new SpinnerDateModel();
         spnFechaIngreso.setModel(modelIng);
         JSpinner.DateEditor editorIng = new JSpinner.DateEditor(spnFechaIngreso, "yyyy-MM-dd");
         spnFechaIngreso.setEditor(editorIng);
 
         // --- Configuración Spinner Fecha Salida ---
         // ... (el código de configuración) ...
-         SpinnerDateModel modelSal = new SpinnerDateModel(/*...*/);
+         SpinnerDateModel modelSal = new SpinnerDateModel();
         spnFechaSalida.setModel(modelSal);
         JSpinner.DateEditor editorSal = new JSpinner.DateEditor(spnFechaSalida, "yyyy-MM-dd");
         spnFechaSalida.setEditor(editorSal);
