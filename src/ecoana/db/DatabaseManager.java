@@ -19,7 +19,46 @@ import java.sql.ResultSet;
 public class DatabaseManager {
     
     
-    // Dentro de la clase DatabaseManager
+   
+    public boolean actualizarEstadoSolicitud(int idSolicitud, String nuevoEstado) {
+    // Consulta SQL para actualizar el estado basado en el ID
+    String sql = "UPDATE SolicitudesReserva SET EstadoSolicitud = ? WHERE ID = ?";
+
+    // Usamos try-with-resources
+    try (Connection conn = DriverManager.getConnection(DB_URL); // Reusa la URL
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        // Asignamos los valores a los parámetros (?)
+        pstmt.setString(1, nuevoEstado); // El nuevo estado va en el primer ?
+        pstmt.setInt(2, idSolicitud);    // El ID va en el segundo ?
+
+        // Ejecutamos la actualización
+        int affectedRows = pstmt.executeUpdate();
+
+        // Devolvemos true si se actualizó al menos una fila (debería ser 1)
+        return affectedRows > 0;
+
+    } catch (SQLException e) {
+        System.err.println("Error al actualizar estado de solicitud ID " + idSolicitud + ": " + e.getMessage());
+        e.printStackTrace();
+        return false; // Falso si hubo error
+    }
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 public List<Object[]> getTodasLasSolicitudes() { //<- Asegúrate que esta línea esté bien
     List<Object[]> solicitudes = new ArrayList<>();
